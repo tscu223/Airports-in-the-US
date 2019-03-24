@@ -1,237 +1,337 @@
-<!DOCTYPE html>
-<html>
+<!-- <!<!DOCTYPE html>
+  <html>
 
-<head>
-	<meta charset=utf-8 />
-	<title></title>
-	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-	<link rel='icon' href='https://newmapsplus.github.io/favicon.ico' type='image/x-icon' />
+  <head>
+    <meta charset=utf-8 />
+    <title>Airports in the US</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.css">
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,900i" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
 
-	<style>
-		/*
-			UKy Colors:
-            #c7c9c8 light gray
-            #63666a dark gray
-            #15397f dark blue
-            #009bda light blue
-            #0033a0 official blue
-        */
-		body {
-			margin: 0;
-			padding: 0;
-			background: #e3e3e6;
-			font-family: 'Lato', sans-serif;
-			font-weight: 300;
-			color: #3d3d3d;
-			font-size: 100%;
-			/* 16px is default browser size */
-		}
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background:rgb(42, 42, 42);
+        font-family: "Lato", sans-serif;
+        font-size: 100%;
+        font-weight: 300;
+        color: rgb(172, 172, 172);
+      }
 
-		header,
-		section,
-		footer {
-			width: 80%;
-			margin: 10px auto;
-		}
+      header, footer, section {
+        padding: 6px 10%;
+        margin: 0 auto;
+        width: 80%
+      }
 
-		h1 {
-			font-weight: 900;
-			font-size: 2.8em;
-			font-style: italic;
-			/* The em unit. 3x the current size */
-			letter-spacing: .02em;
-			margin: 5px 0;
-			/* text-transform: uppercase; */
-		}
+      h1 {
+        display: inline-block;
+        margin-right: 20px;
+        color: rgb(190, 190, 190);
+        font-size: 3.5em;
+        font-weight: 700;
+      }
 
-		h2 {
-			font-weight: 300;
-			color: #63666a;
-			font-size: 2.2em;
-			letter-spacing: .06em;
-			font-style: italic;
-			margin: 5px 0;
-		}
-
-		h3 {
-			font-weight: 300i;
-			font-size: 1.5em;
-			margin-bottom: 5px;
-		}
-
-		p {
-			font-size: 1.3em;
-			line-height: 1.8em;
-			margin-bottom: 5px;
-		}
-
-		a {
-			color: #004A8B;
-			font-weight: 400;
-			text-decoration: none;
-		}
-
-		a:hover {
-			text-decoration: underline;
-		}
-
-		ul {
-			padding: 0px 20px 4px 20px;
-			font-size: 1.1em;
-			line-height: 1.2em;
-			color: #63666a;
-		}
-
-		li {
-			margin: 10px 0
-		}
-
-		hr {
-			margin: 20px 0;
-			border: 0;
-			height: 1px;
-			background: #63666a;
-		}
-
-		.linkbox {
-			margin: 3px 0 20px 0;
-			display: block;
-			font-size: 0.9em;
-			font-weight: 300;
-			line-height: 1.3em;
-		}
-
-		#map {
-			width: 100%;
-			height: 450px;
-			margin: 20px auto;
-		}
-
-		.max-image-width {
-			width: 100%;
-		}
-
-		/* Use float property to make two-column layout */
-		.first-column {
-			float: left;
-			width: 49%;
-			padding-right: 2%;
-		}
-
-		.column {
-			float: left;
-			width: 49%;
-		}
-
-		/* Clear floats after the columns */
-		.row::after {
-			content: "";
-			display: block;
-			clear: both;
-		}
-
-		/* When browser is 900px wide or less */
-		@media screen and (max-width: 900px) {
-
-			.first-column,
-			.second-column {
-				width: 100%;
-			}
-		}
-	</style>
-</head>
-
-<body>
-
-	<header>
-		<h1>My map</h1>
-	</header>
-	<section>
-		<div class="row">
-			<div id="map"></div>
-
-			<div class="first-column">
-				<h2>Patterns of map production</h2>
-				<p>
-					"I make maps like other cartographers."
-					(<a href="https://en.wikipedia.org/wiki/List_of_cartographers">Wikipedia list of cartographers.</a>)
-				</p>
-
-				<p><b>Social links</b></p>
-				<ul>
-					<li>See my projects on GitHub: <a href="https://github.com/newmapsplus">New Maps Plus</a></li>
-					<li>Follow me on twitter: <a href="https://twitter.com/NewMapsPlus">@NewMapsPlus</a></li>
-					<li>Visit my <a href='#'>mapping portfolio</a>.</li>
-				</ul>
+      h2 {
+        display: inline-block;
+        color: #94d8ff;
+        letter-spacing: 0.05em;
+        margin-top: 0px;
+        font-weight: 300;
+        text-transform: uppercase;
+        /*  Stack text shadows.  */
+        text-shadow: 0 0 30px #0098b3, 0 0 40px #00c2e4, 0 0 50px #00c2e4, 0 0 80px #00c2e4;
+      }
 
 
-			</div>
-			<div class="column">
-				<img class="max-image-width" src="https://farm2.staticflickr.com/1816/28917431097_5bb5cadb70_h.jpg" title="Electricity and bubbles in a Lexington sunset">
-				<div class="linkbox">
-					Electricity and bubbles in a Lexington sunset
-				</div>
-			</div>
-		</div>
-	</section>
-	<footer>
-		<hr>
+      #map {
+        width: 80%;
+        height: 540px;
+        margin: 10px auto;
+      }
 
-		<a href="https://newmapsplus.github.io">
-			<img src="https://newmapsplus.github.io/assets/graphics/logo-2018-nmp-75px-h-gray.png" alt="University of Kentucky Geography">
-		</a>
 
-		<a href="https://uky-gis.github.io">
-			<img src="https://newmapsplus.github.io/assets/graphics/logo-2018-geography-75px-h.png" alt="University of Kentucky Geography">
-		</a>
+      p {
+        font-size: 1em;
+        color:rgba(170, 170, 170);;
+        font-weight: 300;
+        font-size: 1.2em;
+      }
+    </style>
+  </head>
 
-	</footer>
+  <body>
+    <header>
+      <h1>Airports in the US</h1>
+      <h2>all aircraft landing facilities</h2>
+    </header>
+
+    <div id='map'></div>
+
+    <footer>
+      <p>Map authored by Teya Cuellar</p>
+      <p> This map shows all aircraft landing facilities in the United States. You can toggle through the different types of landing facilities in the upper right hand corner of the map.  </p>
+    </footer>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.js"></script>
-	<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://unpkg.com/simple-statistics@6.1.1/dist/simple-statistics.min.js"></script>
 
 	<script>
-		// map options
-		var options = {
-			center: [38, -95],
-			zoom: 4
+  var map = L.map('map', {
+    center: [36, -94],
+    zoom: 4,
+  });
+
+  var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  });
+
+  tiles.addTo(map);
+
+		var airportLayer = $.getJSON("data/Airports.json", function(data) {
+			var airportsLayer = L.geoJson(data, {
+				pointToLayer: function(feature, latlng) {
+					return L.circleMarker(latlng, {
+						color: 'white',
+						weight: 1,
+						fillColor: 'white',
+						fillOpacity: 1,
+						radius: 1
+          });
+        },
+        filter: function (feature) {
+          if (feature.properties.FacilityTy == "Airport") {
+            return feature;
+          }
+          else {
+            (feature.properties.FacilityTy == "Heliport")
+            return feature;
+          }
+        }
+      });
+      airportsLayer.addTo(map)
+drawMap(airportsLayer);
+  });
+
+		function drawMap(airportsLayer) {
+
+			airportsLayer.eachLayer(function(layer) {
+				var popup =
+				"<h3>" + "Facility Name:" + layer.feature.properties.FullName + "<br>"
+        + "<h3>" + "Facility Type:" + layer.feature.properties.FacilityTy
+				layer.bindTooltip(popup);
+				// console.log(layer.feature.properties.FacilityTy);
+			});
 		}
-		// create a Leaflet map in our division container with id of 'map'
-		var map = L.map('map', options);
-		// Leaflet providers base map URL
-		var basemap_source =
-			'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/dark_all/{z}/{x}/{y}.png'
-		// Leaflet providers attributes
-		var basemap_options = {
-			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
-			subdomains: 'abcd',
-			maxZoom: 19
-		};
-		// request some basemap tiles and add to the map
-		var tiles = L.tileLayer(basemap_source, basemap_options).addTo(map);
 
-		$.getJSON("data/Airports.json", function(data) {
-			console.log(data);
-			L.geoJson(data, {
-				pointToLayer: function(feature,latlng) {
-		            return L.circleMarker(latlng, {
-									color: 'orange',
- 									weight: 1,
- 									fillColor: 'yellow',
- 									fillOpacity: 1,
- 									radius: 1
-		            });
-		    }
-		}).addTo(map);
-	});
+    // $.when(airportLayer).done(function () {
+    //   // load, filter, and style the state outline
+    //   var heliports = $.getJSON("data/data/Airports.json", function (data) {
+    //
+    //       var heliportLayer = L.geoJson(data, {
+    //         pointToLayer: function(feature, latlng) {
+    // 					return L.circleMarker(latlng, {
+    // 						color: 'red',
+    // 						weight: 1,
+    // 						fillColor: 'red',
+    // 						fillOpacity: 1,
+    // 						radius: 1
+    //           });
+    //         },
+    //
+    //         // Filter for the correct state to use
+    //         filter: function (feature) {
+    //           if (feature.properties.FacilityTy == "Heliport") {
+    //             return feature;
+    //           }
+    //         }
+    //       });
+    //
+    //       // Add layer to map!
+    //       heliportLayer.addTo(map)
+    // drawMap(heliportLayer);
+    //   });
+    //
+    // 		function drawMap(heliportLayer) {
+    //
+    // 			heliportLayer.eachLayer(function(layer) {
+    // 				var popup =
+    // 				"<h3>" + "<b>" + layer.feature.properties.FullName + "</b><br>"
+    // 				layer.bindTooltip(popup);
+    // 				console.log(layer.feature.properties.FacilityTy);
+    // 			});
+    // 		}
+    //   });
 
-	</script>
+
+</script>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html>
+
+ <head>
+   <meta charset=utf-8 />
+   <title>Final Project</title>
+   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+
+
+   <style>
+     body {
+       margin: 0;
+       padding: 0;
+       background:rgb(42, 42, 42);
+       font-family: "Lato", sans-serif;
+       font-size: 100%;
+       font-weight: 300;
+       color: rgb(172, 172, 172);
+     }
+
+     header, footer, section {
+       padding: 6px 10%;
+       margin: 0 auto;
+       width: 80%
+     }
+
+     h1 {
+       display: inline-block;
+       margin-right: 20px;
+       color: rgb(190, 190, 190);
+       font-size: 3.5em;
+       font-weight: 700;
+     }
+
+     h2 {
+       display: inline-block;
+       color: #94d8ff;
+       letter-spacing: 0.05em;
+       margin-top: 0px;
+       font-weight: 300;
+       text-transform: uppercase;
+       /*  Stack text shadows.  */
+       text-shadow: 0 0 30px #0098b3, 0 0 40px #00c2e4, 0 0 50px #00c2e4, 0 0 80px #00c2e4;
+     }
+
+
+     #map {
+       width: 80%;
+       height: 540px;
+       margin: 10px auto;
+     }
+
+
+     p {
+       font-size: 1em;
+       color:rgba(170, 170, 170);;
+       font-weight: 300;
+       font-size: 1.2em;
+     }
+   </style>
+ </head>
+
+ <body>
+   <header>
+     <h1>Aircraft Landing Facilities in the US</h1>
+     <h2></h2>
+   </header>
+
+   <div id='map'></div>
+
+   <footer>
+     <p>Map authored by Teya Cuellar</p>
+     <p> This map shows all aircraft landing facilities in the United States. You can toggle through the different types of landing facilities in the upper right hand corner of the map. Data retrieved from the US Department of Transportation (<a href="https://catalog.data.gov/dataset/airports-national-national-geospatial-data-asset-ngda-airports">catalog.data.gov</a>) </p>
+   </footer>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.js"></script>
+ 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+ 	<script src="https://unpkg.com/simple-statistics@6.1.1/dist/simple-statistics.min.js"></script>
+   <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+   <script src="data/air-ports.js"></script>
+   <script>
+     var map = L.map('map', {
+       center: [36, -94],
+       zoom: 4,
+     });
+
+     var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+       subdomains: 'abcd',
+       maxZoom: 19
+     });
+
+     tiles.addTo(map);
+
+     var commonStyles = {
+  weight: 1,
+  stroke: 1,
+  radius: 1,
+  fillOpacity: 0.8
+ }
+
+
+ var layerInfo = {
+     airportLayer: {facility:"Airport", color:'#1f78b4'},
+     heliportLayer: {facility:"Heliport", color:'#a6cee3'},
+     gliderportLayer :{facility:"Gliderport", color: '#ffff99'},
+     ultralightLayer: {facility:"Ultralight", color: '#FFC0CB'},
+     seaplanebaseLayer: {facility: "Seaplane Base", color: '#0000ff'},
+     balloonportLayer: {facility: "Balloonport", color: '#FFB6C1'}
+ };
+
+ var geoJsonLayers = {};
+
+ for(var layer in layerInfo) {
+   geoJsonLayers[layer] = L.geoJson(airports, {
+     pointToLayer: function(feature,latlng) {
+       return L.circleMarker(latlng, commonStyles);
+     },
+     filter: function(feature) {
+       if(feature.properties.FacilityTy[layerInfo[layer].facility]) {
+         return feature;
+       }
+     },
+     style: function(feature) {
+       return {
+         color: layerInfo[layer].color,
+         fillColor: layerInfo[layer].color,
+       }
+     }
+   }).addTo(map);
+   // drawMap(geoJsonLayer);
+ }
+   //
+   // 		function drawMap(geoJsonLayers) {
+   //
+   // 			geoJsonLayers.eachLayer(function(layer) {
+   // 				var popup =
+   // 				"<h3>" + "Facility Name:" + layer.feature.properties.FullName + "<br>"
+   //         + "<h3>" + "Facility Type:" + layer.feature.properties.FacilityTy
+   // 				layer.bindTooltip(popup);
+   // 			});
+   // 		},
+
+ var facilityLabels = {
+   "Airport": geoJsonLayers.airportLayer,
+   "Heliport": geoJsonLayers.heliportLayer,
+   "Gliderport": geoJsonLayers.gliderportLayer,
+   "Ultralight": geoJsonLayers.ultralightLayer,
+   "Seaplane Base": geoJsonLayers.seaplanebaseLayer,
+   "Balloonport": geoJsonLayers.balloonportLayer
+};
+ L.control.layers(null, facilityLabels, { collapsed:false }).addTo(map);
+
+</script>
+
 </body>
 
 </html>
