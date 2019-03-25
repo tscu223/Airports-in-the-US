@@ -1,0 +1,6 @@
+{
+  // Required properties
+  "title": "Airports of the US", // Give your project a good title
+  "info": "All aircraft landing facilities in the United States.", // A short blurb about your project
+  "coordinates": [36, -94], // IMPORTANT: the lat, long centerpoint of your project
+  }
