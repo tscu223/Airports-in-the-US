@@ -98,7 +98,7 @@
      var commonStyles = {
   weight: 1,
   stroke: 1,
-  radius: 1,
+  radius: 2,
   fillOpacity: 0.8
  }
 
@@ -137,8 +137,10 @@
 
        layer.bindTooltip(popup);
       }
-   }).addTo(map);
+   })
     }
+    // Turn on only one layer
+    geoJsonLayers.airportLayer.addTo(map)
 
      //  var popup =
      // "<h3>" + "Facility Name:" + feature.properties.FullName + "<br>"
