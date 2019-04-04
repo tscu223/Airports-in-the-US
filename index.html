@@ -135,9 +135,20 @@
        "<h3>" + "<b>" + "Facility Name: " +"</b>" + feature.properties.FullName + "<br>"
        // + "<h3>" + "Facility Type: " + feature.properties.FacilityTy
 
-       layer.bindTooltip(popup);
+       layer.bindPopup(popup);
+
+       layer.on("mouseover", function() {
+         layer.bindTooltip(popup)
+         layer.openTooltip()
+       }) 
+
+       layer.on("mouseout", function() {
+         layer.closeTooltip()
+       }) 
       }
    })
+
+
     }
     // Turn on only one layer
     geoJsonLayers.airportLayer.addTo(map)
