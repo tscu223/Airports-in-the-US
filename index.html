@@ -98,7 +98,7 @@
      var commonStyles = {
   weight: 1,
   stroke: 1,
-  radius: 1,
+  radius: 2,
   fillOpacity: 0.8
  }
 
@@ -135,10 +135,23 @@
        "<h3>" + "<b>" + "Facility Name: " +"</b>" + feature.properties.FullName + "<br>"
        // + "<h3>" + "Facility Type: " + feature.properties.FacilityTy
 
-       layer.bindTooltip(popup);
+       layer.bindPopup(popup);
+
+       layer.on("mouseover", function() {
+         layer.bindTooltip(popup)
+         layer.openTooltip()
+       }) 
+
+       layer.on("mouseout", function() {
+         layer.closeTooltip()
+       }) 
       }
-   }).addTo(map);
+   })
+
+
     }
+    // Turn on only one layer
+    geoJsonLayers.airportLayer.addTo(map)
 
      //  var popup =
      // "<h3>" + "Facility Name:" + feature.properties.FullName + "<br>"
